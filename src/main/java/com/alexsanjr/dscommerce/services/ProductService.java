@@ -37,4 +37,13 @@ public class ProductService {
         entity = repository.save(entity);
         return modelMapper.map(entity, ProductDTO.class);
     }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) {
+        Product entity = repository.getReferenceById(id);
+        dto.setId(id);
+        entity = modelMapper.map(dto, Product.class);
+        entity = repository.save(entity);
+        return modelMapper.map(entity, ProductDTO.class);
+    }
 }
