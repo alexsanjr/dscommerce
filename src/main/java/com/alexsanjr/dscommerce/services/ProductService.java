@@ -3,12 +3,16 @@ package com.alexsanjr.dscommerce.services;
 import com.alexsanjr.dscommerce.dto.ProductDTO;
 import com.alexsanjr.dscommerce.entities.Product;
 import com.alexsanjr.dscommerce.repositories.ProductRepository;
+import com.alexsanjr.dscommerce.services.exceptions.DatabaseException;
 import com.alexsanjr.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -42,15 +46,28 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-        Product entity = repository.getReferenceById(id);
-        dto.setId(id);
-        entity = modelMapper.map(dto, Product.class);
-        entity = repository.save(entity);
-        return modelMapper.map(entity, ProductDTO.class);
+        try {
+            Product entity = repository.getReferenceById(id);
+            dto.setId(id);
+            entity = modelMapper.map(dto, Product.class);
+            entity = repository.save(entity);
+            return modelMapper.map(entity, ProductDTO.class);
+        }
+        catch (JpaObjectRetrievalFailureException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        repository.deleteById(id);
+        if(!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Recurso não encontrado");
+        }
+        try {
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial");
+        }
     }
 }
