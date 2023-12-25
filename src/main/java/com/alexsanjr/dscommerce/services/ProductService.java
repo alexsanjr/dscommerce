@@ -3,6 +3,7 @@ package com.alexsanjr.dscommerce.services;
 import com.alexsanjr.dscommerce.dto.ProductDTO;
 import com.alexsanjr.dscommerce.entities.Product;
 import com.alexsanjr.dscommerce.repositories.ProductRepository;
+import com.alexsanjr.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product product = repository.findById(id).get();
+        Product product = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Recurso não encontrado"));
         return modelMapper.map(product, ProductDTO.class);
     }
 
