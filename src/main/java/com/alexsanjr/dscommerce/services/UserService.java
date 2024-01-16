@@ -5,6 +5,7 @@ import com.alexsanjr.dscommerce.entities.Role;
 import com.alexsanjr.dscommerce.entities.User;
 import com.alexsanjr.dscommerce.projections.UserDetailsProjection;
 import com.alexsanjr.dscommerce.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,6 +59,12 @@ public class UserService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDTO getMe() {
         User user = authenticated();
-        return new UserDTO(user);
+        UserDTO dto = modelMapper.map(user, UserDTO.class);
+
+        dto.getRoles().clear();
+        for(Role role : user.getRoles()) {
+            dto.addRoles(role.getAuthority());
+        }
+        return dto;
     }
 }
