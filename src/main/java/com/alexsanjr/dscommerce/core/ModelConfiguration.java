@@ -14,12 +14,12 @@ public class ModelConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.createTypeMap(OrderItem.class, OrderItemDTO.class)
-                .addMapping(mapper -> mapper.getProduct().getName(),
-                        OrderItemDTO::setName);
+        modelMapper.createTypeMap(OrderItem.class, OrderItemDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getProduct().getName(), OrderItemDTO::setName);
+            mapper.map(src -> src.getProduct().getImgUrl(), OrderItemDTO::setImgUrl);
+        });
 
-        modelMapper.createTypeMap(User.class, UserDTO.class)
-                .addMapping(User::getRolesName, UserDTO::setRoles);
+        modelMapper.createTypeMap(User.class, UserDTO.class).addMapping(User::getRolesName, UserDTO::setRoles);
 
         return modelMapper;
     }

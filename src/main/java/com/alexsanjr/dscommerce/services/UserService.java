@@ -59,8 +59,6 @@ public class UserService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDTO getMe() {
         User user = authenticated();
-        UserDTO dto = modelMapper.map(user, UserDTO.class);
-
-        return dto;
+        return modelMapper.map(user, UserDTO.class);
     }
 }
