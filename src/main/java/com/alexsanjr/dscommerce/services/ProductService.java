@@ -2,7 +2,6 @@ package com.alexsanjr.dscommerce.services;
 
 import com.alexsanjr.dscommerce.dto.ProductDTO;
 import com.alexsanjr.dscommerce.dto.ProductMinDTO;
-import com.alexsanjr.dscommerce.entities.Category;
 import com.alexsanjr.dscommerce.entities.Product;
 import com.alexsanjr.dscommerce.repositories.ProductRepository;
 import com.alexsanjr.dscommerce.services.exceptions.DatabaseException;
@@ -41,7 +40,7 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
-        Product entity = copyDtoToEntity(dto);
+        Product entity = modelMapper.map(dto, Product.class);
         entity = repository.save(entity);
         return modelMapper.map(entity, ProductDTO.class);
     }
@@ -51,7 +50,7 @@ public class ProductService {
         try {
             Product entity = repository.getReferenceById(id);
             dto.setId(id);
-            entity = copyDtoToEntity(dto);
+            entity = modelMapper.map(dto, Product.class);
             entity = repository.save(entity);
             return modelMapper.map(entity, ProductDTO.class);
         }
@@ -71,12 +70,5 @@ public class ProductService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial");
         }
-    }
-
-    private Product copyDtoToEntity(ProductDTO dto) {
-        Product entity = modelMapper.map(dto, Product.class);
-        dto.getCategories().forEach(
-                cat -> entity.getCategories().add(modelMapper.map(cat, Category.class)));
-        return entity;
     }
 }

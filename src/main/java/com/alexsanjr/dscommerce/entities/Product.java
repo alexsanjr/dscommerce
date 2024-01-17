@@ -88,6 +88,10 @@ public class Product {
         return items;
     }
 
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     public List<Order> getOrders() {
         return items.stream().map(x -> x.getOrder()).toList();
     }
