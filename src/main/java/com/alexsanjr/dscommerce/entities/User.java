@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -111,6 +112,9 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+    public Set<String> getRolesName() {
+        return roles.stream().map(Role::getAuthority).collect(Collectors.toSet());
     }
 
     public void addRole(Role role) {

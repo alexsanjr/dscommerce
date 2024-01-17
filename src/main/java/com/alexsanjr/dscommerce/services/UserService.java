@@ -61,10 +61,6 @@ public class UserService implements UserDetailsService {
         User user = authenticated();
         UserDTO dto = modelMapper.map(user, UserDTO.class);
 
-        dto.getRoles().clear();
-        for(Role role : user.getRoles()) {
-            dto.addRoles(role.getAuthority());
-        }
         return dto;
     }
 }

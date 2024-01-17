@@ -58,7 +58,7 @@ public class UserDTO {
         return roles;
     }
 
-    public void addRoles(String role) {
-        roles.add(role);
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
