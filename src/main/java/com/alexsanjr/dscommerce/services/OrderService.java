@@ -34,12 +34,16 @@ public class OrderService {
     private UserService userService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {
         Order order = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
+        authService.validateSelfOrAdmin(order.getClient().getId());
         return modelMapper.map(order, OrderDTO.class);
     }
 
