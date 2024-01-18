@@ -2,18 +2,18 @@ package com.alexsanjr.dscommerce.dto;
 
 public class OrderItemDTO {
 
-    private Long productID;
+    private Long productId;
     private String name;
     private Double price;
     private Integer quantity;
     private String imgUrl;
 
-    public Long getProductID() {
-        return productID;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductID(Long productID) {
-        this.productID = productID;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public String getName() {
