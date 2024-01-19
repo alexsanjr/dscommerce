@@ -7,9 +7,9 @@ Project developed through the **Spring Professional** course of a store's Rest A
 ## Reference
 
  - <a href="#-uml-diagram">UML Diagram</a>
- - <a href="#-functionalities">Functionalities</a>
- - <a href="#-stacks">Stacks</a>
- - <a href="#-install">Install</a>
+ - <a href="#%EF%B8%8F-functionalities">Functionalities</a>
+ - <a href="#%EF%B8%8F-stacks">Stacks</a>
+ - <a href="#%EF%B8%8F-install">Install</a>
  - <a href="#-author">Author</a>
  - <a href="#-next-steps">Next Steps</a>
 
@@ -18,6 +18,7 @@ Project developed through the **Spring Professional** course of a store's Rest A
 
 ![UML Diagram](./assets/uml-diagram.png)
 
+
 ## 🕹️ Functionalities
 
 - [x]  Login and password system
@@ -25,7 +26,6 @@ Project developed through the **Spring Professional** course of a store's Rest A
 - [x]  Order management (CRUD)
 - [x]  Payment management (CRUD)
 - [x]  Payment System
-
 
 
 ## 🛠️ Stacks
@@ -40,6 +40,7 @@ Project developed through the **Spring Professional** course of a store's Rest A
 - H2 Database (Test profile)
 - OAuth2
 - Model Mapper
+
 
 ## 🖱️ Install
 
@@ -63,6 +64,7 @@ Project developed through the **Spring Professional** course of a store's Rest A
   # Drop the arquives.json in the Postmann
 ```
 > DSCommerce.postman_collection.**json** and DSCommerce auth.postman_environment.**json** 
+
     
 ## 🧭 Author
 
