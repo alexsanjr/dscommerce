@@ -70,8 +70,8 @@ Project developed through the **Spring Professional** course of a store's Rest A
 
 **Alexsanjr**
 
-[LinkedIn](https://www.linkedin.com/in/alexsanjr/)
-
+Follow me in:
+<a href="https://www.linkedin.com/in/alexsanjr/" target="_blank">LinkedIn</a>
 
 ## 🔬 Next Steps
 
