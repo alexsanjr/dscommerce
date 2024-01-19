@@ -9,9 +9,9 @@ Project developed through the **Spring Professional** course of a store's Rest A
  - <a href="#-uml-diagram">UML Diagram</a>
  - <a href="#-functionalities">Functionalities</a>
  - <a href="#-stacks">Stacks</a>
- - <a href="#-🖱️-install">Install</a>
- - <a href="#-🧭-author">Author</a>
- - <a href="#-🔬-next-steps">Next Steps</a>
+ - <a href="#-install">Install</a>
+ - <a href="#-author">Author</a>
+ - <a href="#-next-steps">Next Steps</a>
 
 
 ## 📗 UML Diagram
