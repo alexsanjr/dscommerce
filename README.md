@@ -77,4 +77,5 @@ Follow me in:
 
 - [ ]  Front-End
 - [ ]  Email for sign-up confirm
+- [ ]  Tests Implementation 
 - [ ]  More custom queries
