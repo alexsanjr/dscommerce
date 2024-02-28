@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResourceServerConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DscommerceApplicationTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.alexsanjr.dscommerce.config</a> &gt; <span class="el_source">ResourceServerConfig.java</span></div><h1>ResourceServerConfig.java</h1><pre class="source lang-java linenums">package com.alexsanjr.dscommerce.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+<span class="fc" id="L28">public class ResourceServerConfig {</span>
+
+	@Value(&quot;${cors.origins}&quot;)
+	private String corsOrigins;
+
+	@Bean
+	@Profile(&quot;test&quot;)
+	@Order(1)
+	public SecurityFilterChain h2SecurityFilterChain(HttpSecurity http) throws Exception {
+
+<span class="nc" id="L38">		http.securityMatcher(PathRequest.toH2Console()).csrf(csrf -&gt; csrf.disable())</span>
+<span class="nc" id="L39">				.headers(headers -&gt; headers.frameOptions(frameOptions -&gt; frameOptions.disable()));</span>
+<span class="nc" id="L40">		return http.build();</span>
+	}
+
+	@Bean
+	@Order(3)
+	public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
+
+<span class="fc" id="L47">		http.csrf(csrf -&gt; csrf.disable());</span>
+<span class="fc" id="L48">		http.authorizeHttpRequests(authorize -&gt; authorize.anyRequest().permitAll());</span>
+<span class="fc" id="L49">		http.oauth2ResourceServer(oauth2ResourceServer -&gt; oauth2ResourceServer.jwt(Customizer.withDefaults()));</span>
+<span class="fc" id="L50">		http.cors(cors -&gt; cors.configurationSource(corsConfigurationSource()));</span>
+<span class="fc" id="L51">		return http.build();</span>
+	}
+
+	@Bean
+	public JwtAuthenticationConverter jwtAuthenticationConverter() {
+<span class="fc" id="L56">		JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();</span>
+<span class="fc" id="L57">		grantedAuthoritiesConverter.setAuthoritiesClaimName(&quot;authorities&quot;);</span>
+<span class="fc" id="L58">		grantedAuthoritiesConverter.setAuthorityPrefix(&quot;&quot;);</span>
+
+<span class="fc" id="L60">		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();</span>
+<span class="fc" id="L61">		jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);</span>
+<span class="fc" id="L62">		return jwtAuthenticationConverter;</span>
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+
+<span class="fc" id="L68">		String[] origins = corsOrigins.split(&quot;,&quot;);</span>
+
+<span class="fc" id="L70">		CorsConfiguration corsConfig = new CorsConfiguration();</span>
+<span class="fc" id="L71">		corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));</span>
+<span class="fc" id="L72">		corsConfig.setAllowedMethods(Arrays.asList(&quot;POST&quot;, &quot;GET&quot;, &quot;PUT&quot;, &quot;DELETE&quot;, &quot;PATCH&quot;));</span>
+<span class="fc" id="L73">		corsConfig.setAllowCredentials(true);</span>
+<span class="fc" id="L74">		corsConfig.setAllowedHeaders(Arrays.asList(&quot;Authorization&quot;, &quot;Content-Type&quot;));</span>
+
+<span class="fc" id="L76">		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
+<span class="fc" id="L77">		source.registerCorsConfiguration(&quot;/**&quot;, corsConfig);</span>
+<span class="fc" id="L78">		return source;</span>
+	}
+
+	@Bean
+	FilterRegistrationBean&lt;CorsFilter&gt; corsFilter() {
+<span class="fc" id="L83">		FilterRegistrationBean&lt;CorsFilter&gt; bean = new FilterRegistrationBean&lt;&gt;(</span>
+<span class="fc" id="L84">				new CorsFilter(corsConfigurationSource()));</span>
+<span class="fc" id="L85">		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);</span>
+<span class="fc" id="L86">		return bean;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

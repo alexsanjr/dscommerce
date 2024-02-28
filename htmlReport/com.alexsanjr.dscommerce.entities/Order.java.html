@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">DscommerceApplicationTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.alexsanjr.dscommerce.entities</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package com.alexsanjr.dscommerce.entities;
+
+import jakarta.persistence.*;
+
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;tb_order&quot;)
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(columnDefinition = &quot;TIMESTAMP WITHOUT TIME ZONE&quot;)
+    private Instant moment;
+    private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;client_id&quot;)
+    private User client;
+
+    @OneToOne(mappedBy = &quot;order&quot;, cascade = CascadeType.ALL)
+    private Payment payment;
+
+<span class="pc" id="L30">    @OneToMany(mappedBy = &quot;id.order&quot;)</span>
+    private Set&lt;OrderItem&gt; items = new HashSet&lt;&gt;();
+
+<span class="fc" id="L33">    public Order() {</span>
+<span class="fc" id="L34">    }</span>
+
+<span class="nc" id="L36">    public Order(Long id, Instant moment, OrderStatus status, User client, Payment payment) {</span>
+<span class="nc" id="L37">        this.id = id;</span>
+<span class="nc" id="L38">        this.moment = moment;</span>
+<span class="nc" id="L39">        this.status = status;</span>
+<span class="nc" id="L40">        this.client = client;</span>
+<span class="nc" id="L41">        this.payment = payment;</span>
+<span class="nc" id="L42">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L45">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L49">        this.id = id;</span>
+<span class="nc" id="L50">    }</span>
+
+    public Instant getMoment() {
+<span class="nc" id="L53">        return moment;</span>
+    }
+
+    public void setMoment(Instant moment) {
+<span class="nc" id="L57">        this.moment = moment;</span>
+<span class="nc" id="L58">    }</span>
+
+    public OrderStatus getStatus() {
+<span class="nc" id="L61">        return status;</span>
+    }
+
+    public void setStatus(OrderStatus status) {
+<span class="nc" id="L65">        this.status = status;</span>
+<span class="nc" id="L66">    }</span>
+
+    public User getClient() {
+<span class="nc" id="L69">        return client;</span>
+    }
+
+    public void setClient(User client) {
+<span class="nc" id="L73">        this.client = client;</span>
+<span class="nc" id="L74">    }</span>
+
+    public Payment getPayment() {
+<span class="nc" id="L77">        return payment;</span>
+    }
+
+    public void setPayment(Payment payment) {
+<span class="nc" id="L81">        this.payment = payment;</span>
+<span class="nc" id="L82">    }</span>
+
+    public Set&lt;OrderItem&gt; getItems() {
+<span class="nc" id="L85">        return items;</span>
+    }
+
+    public List&lt;Product&gt; getProducts() {
+<span class="nc" id="L89">        return items.stream().map(x -&gt; x.getProduct()).toList();</span>
+    }
+
+    public void setItems(Set&lt;OrderItem&gt; items) {
+<span class="nc" id="L93">        this.items = items;</span>
+<span class="nc" id="L94">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L99" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="nc" id="L101">        Order order = (Order) o;</span>
+
+<span class="nc" id="L103">        return Objects.equals(id, order.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        return id != null ? id.hashCode() : 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
