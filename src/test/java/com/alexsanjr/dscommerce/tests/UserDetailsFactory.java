@@ -20,6 +20,14 @@ public class UserDetailsFactory {
         list.add(new UserDetailsImpl(username, "123", 2L, "ROLE_ADMIN"));
         return list;
     }
+
+    public static List<UserDetailsProjection> createCustomAdminClientUser(String username) {
+
+        List<UserDetailsProjection> list = new ArrayList<>();
+        list.add(new UserDetailsImpl(username, "123", 1L, "ROLE_CLIENT"));
+        list.add(new UserDetailsImpl(username, "123", 2L, "ROLE_ADMIN"));
+        return list;
+    }
 }
 
 class UserDetailsImpl implements UserDetailsProjection {
